@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SGIV - Productos Vendidos </title>
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_inventario.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="{{ url_for('index') }}" class="logo d-flex align-items-center">
+            <img src="{{ url_for('static', filename='assets/img/logo.png') }}" alt="">
+            <span>SGIV</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li class="dropdown"><a href="#"><span>Gestion de Ventas</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li class="dropdown"><a href="#"><span>Gestionar productos</span> <i
+                                class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="/registro_producto">Agregar productos</a></li>
+                                <li><a href="/gestion_inventario">Actualizar Inventario</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown"><a href="#"><span>Visualizacion de datos</span> <i
+                                class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="/productos_vendidos.html">Productos vendidos</a></li>
+                                <li><a href="/grafico_pastel">Graficos Estadísticos</a></li>
+                                <li><a href="/usuarios_registrados">Registro de clientes</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Gestion de Compras</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="/productos">Productos disponibles</a></li>
+                        <li><a href="/carrito_compras">Carro de compras<i
+                                class="fas fa-shopping-cart ml-2 fa-lg"></i></a></li>
+                        <li><a href="/productos_comprados">Productos comprados</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if imagen_base64 %}
+                        <!-- Imagen de perfil con tamaño personalizado -->
+                        <img src="data:image/jpeg;base64,{{ imagen_base64 }}" alt="Imagen de perfil"
+                             class="icon-large imagen_nav">
+                        {% else %}
+                        <!-- Si no hay imagen, puedes usar un icono predeterminado o una imagen por defecto -->
+                        <i class="fas fa-user-circle icon-large"></i>
+                        {% endif %}
+                        <br>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/perfil_de_usuario">{{ username }}</a></li>
+                        <!-- El enlace de cierre de sesión con una clase personalizada -->
+                        <li><a class="dropdown-item logout-link" href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->    </div>
+</header><!-- End Header -->
+
+<section class="py-5">
+
+    <div class="header-content">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 data-aos="fade-up" data-aos-delay="400">HISTORIAL DE PRODUCTOS VENDIDOS</h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">Revisa el historial de ventas.</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="table-container">
+            {% if productos_comprados %}
+            <table id="tabla-inventario" class="table table-borderedd">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Precio Total</th>
+                    <th>Fecha de Compra</th>
+                    <th>Hora de Compra</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for producto in productos_comprados %}
+                <tr>
+                    <td>{{ producto[0] }}</td>
+                    <td>{{ producto[1] }}</td>
+                    <td>{{ producto[2] }}</td>
+                    <td>{{ producto[3] }}</td>
+                    <td>$ {{ producto[4] }}</td>
+                    <td>$ {{ producto[5] }}</td>
+                    <td>{{ producto[6] }}</td>
+                    <td>{{ producto[7] }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No se encontraron productos.</p>
+            {% endif %}
+
+            {% if productos_comprados %}
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td class="text-start">Total de Ganancias en Ventas:</td>
+                    <td colspan="6">${{ productos_comprados | sum(attribute='5') }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="centrar-boton">
+                <!-- Botón de imprimir con icono -->
+                <button id="btnImprimir" class="boton-btn" onclick="imprimirTabla()">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+            </div>
+            {% endif %}
+        </div>
+        <div class="total-gastos">
+            <h3>Total de Compras por Usuario</h3>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="myTotalExpensesChart" width="400" height="400"></canvas>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+<div class="hora-contenedor">
+    <p id="tiempo-actual">
+        <span id="time" class="time-text"></span>
+        <span id="ampm" class="ampm-text"></span>
+    </p>
+</div>
+<footer>
+    <div class="footer-content">
+        <div class="left-content">
+            <p><strong>Universidad Estatal de Milagro</strong> Todos los derechos reservados - UNEMI</p>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    function imprimirTabla() {
+        // Utiliza la función de impresión del navegador
+        window.print();
+    }
+</script>
+
+<!--Datos para la gráfica de los gastos por usuario-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var ctxHistograma = document.getElementById('myTotalExpensesChart').getContext('2d');
+
+        var dataHistograma = {
+            labels: {{ usuarios_gastos | default([]) | tojson | safe }},
+        datasets: [{
+            label: 'Ingresos' ,
+            data: {{ total_gastos | default([]) | tojson | safe }},
+        backgroundColor: [
+            'rgba(75,81,192,0.7)',
+            'rgba(51,162,90,0.7)',
+            'rgba(159,255,0,0.65)',
+            'rgb(29,208,231)',
+            'rgba(161,0,255,0.7)'
+        ],
+            borderColor: [
+            'rgba(75,81,192,0.7)',
+            'rgba(51,162,90,0.7)',
+            'rgba(159,255,0,0.65)',
+            'rgb(29,208,231)',
+            'rgba(161,0,255,0.7)'
+        ],
+            borderWidth: 1
+    }]
+    };
+
+        var opcionesHistograma = {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                labels: {
+                    filter: function(legendItem, chartData) {
+                        return !legendItem.hidden;
+                    }
+                }
+            }
+        };
+
+        var myTotalExpensesChart = new Chart(ctxHistograma, {
+            type: 'bar',
+            data: dataHistograma,
+            options: opcionesHistograma
+        });
+
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mensaje Swal Alert con animación de círculo girando al cargar la página
+        Swal.fire({
+            title: 'Cargando...',
+            html: 'Por favor, espere...<br><br><div class="lds-dual-ring"></div>',
+            icon: 'info',
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            },
+        });
+        // Simula un tiempo de carga de 1 segundo después de que la página se cargue
+        setTimeout(() => {
+            Swal.close();
+        }, 1000);
+    });
+</script>
+
+<script>
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const currentTime = new Date();
+        const hora = currentTime.getHours().toString().padStart(2, '0');
+        const minuto = currentTime.getMinutes().toString().padStart(2, '0');
+        const segundo = currentTime.getSeconds().toString().padStart(2, '0');
+
+        timeElement.innerHTML = `<strong>${hora}</strong>:<strong>${minuto}</strong>:<strong>${segundo}</strong>`;
+    }
+
+    // Actualiza la hora cada segundo
+    setInterval(updateTime, 500);
+    // Llama a updateTime para mostrar la hora inicial
+    updateTime();
+
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const ampmElement = document.getElementById('ampm'); // Elemento para la referencia AM/PM
+        const currentTime = new Date();
+        let hours = currentTime.getHours();
+        let minutes = currentTime.getMinutes();
+        let seconds = currentTime.getSeconds();
+        let ampm = 'AM'; // Por defecto, asumimos que es AM
+        // Verifica si es PM y ajusta la referencia
+        if (hours >= 12) {
+            ampm = 'PM';
+            if (hours > 12) {
+                hours -= 12;
+            }
+        }
+        // Asegura que las horas, minutos y segundos tengan dos dígitos
+        hours = hours.toString().padStart(2, '0');
+        minutes = minutes.toString().padStart(2, '0');
+        seconds = seconds.toString().padStart(2, '0');
+        // Actualiza el contenido de los elementos
+        timeElement.innerHTML = `${hours}:${minutes}:${seconds}`;
+        ampmElement.innerHTML = ampm;
+    }
+
+    // Actualiza la hora cada segundo
+    setInterval(updateTime, 1000);
+    // Llama a updateTime para mostrar la hora inicial
+    updateTime();
+</script>
+<!-- Vendor JS Files -->
+<script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+
+<!-- Template Main JS File -->
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

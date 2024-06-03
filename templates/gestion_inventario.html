@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SGIV - Gestion de Inventarios</title>
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_inventario.css') }}">
+
+</head>
+<body>
+
+<header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="{{ url_for('index') }}" class="logo d-flex align-items-center">
+            <img src="{{ url_for('static', filename='assets/img/logo.png') }}" alt="">
+            <span>SGIV</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li class="dropdown"><a href="#"><span>Gestion de Ventas</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li class="dropdown"><a href="#"><span>Gestionar productos</span> <i
+                                class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="/registro_producto">Agregar productos</a></li>
+                                <li><a href="/gestion_inventario">Actualizar Inventario</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown"><a href="#"><span>Visualizacion de datos</span> <i
+                                class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="/productos_vendidos.html">Productos vendidos</a></li>
+                                <li><a href="/grafico_pastel">Graficos</a></li>
+                                <li><a href="/usuarios_registrados">Registro de clientes</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Gestion de Compras</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="/productos">Productos disponibles</a></li>
+                        <li><a href="/carrito_compras">Carro de compras<i
+                                class="fas fa-shopping-cart ml-2 fa-lg"></i></a></li>
+                        <li><a href="/productos_comprados">Productos comprados</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if imagen_base64 %}
+                        <!-- Imagen de perfil con tamaño personalizado -->
+                        <img src="data:image/jpeg;base64,{{ imagen_base64 }}" alt="Imagen de perfil"
+                             class="icon-large imagen_nav">
+                        {% else %}
+                        <!-- Si no hay imagen, puedes usar un icono predeterminado o una imagen por defecto -->
+                        <i class="fas fa-user-circle icon-large"></i>
+                        {% endif %}
+                        <br>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/perfil_de_usuario">{{ username }}</a></li>
+                        <!-- El enlace de cierre de sesión con una clase personalizada -->
+                        <li><a class="dropdown-item logout-link" href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->    </div>
+</header>
+
+<section class="py-5">
+    <div class="header-content">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 data-aos="fade-up" data-aos-delay="400">INVENTARIO</h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">Gestiona tu Inventario.</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <form id="formBusqueda" action="/productos" method="GET">
+                    <div class="input-group" style="background-color: white">
+                        <input type="text" id="busqueda" name="busqueda" class="form-control form-control-lg"
+                               placeholder="Buscar por nombre o ID." aria-label="Buscar"
+                               aria-describedby="boton-busqueda">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="table-container">
+            {% if inventario %}
+            <table id="tabla-inventario" class="table table-borderedd">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Categoría</th>
+                    <th>Eliminar</th>
+                </tr>
+
+                </thead>
+                <tbody id="tbody-inventario">
+                {% for producto in inventario %}
+                <tr>
+                    <td class="product-name">
+                        <p class="ocultar-en-pagina">{{ producto.nombre }}</p>
+                        <input type="text" class="nombre-producto" value="{{ producto.nombre }}"
+                               data-product-id="{{ producto.id }}">
+                    </td>
+
+
+                    <td>
+                        <img src="data:image/jpeg;base64,{{ producto.imagen }}" alt="Imagen del producto"
+                             class="imagen-pequena">
+                        <div class="mb-3">
+                            <label for="nuevas_imagenes_{{ producto.id }}" class="form-label"></label>
+                            <input type="file" id="nuevas_imagenes_{{ producto.id }}" name="nuevas_imagenes"
+                                   class="form-control nuevas-imagenes" multiple="multiple">
+                        </div>
+                        <input type="hidden" class="producto_id" value="{{ producto.id }}">
+                        <button class="btn boton-btn mr-3" onclick="actualizarImagenes(this)">
+                            Cambiar Imagen <i class="fas fa-plus-circle ml-2"></i>
+                        </button>
+                    </td>
+
+                    <td>
+                        <input type="number" value="{{ producto.cantidad }}"
+                               data-product-id="{{ producto.id }}"
+                               class="cantidad-input validar-entero-positivo form-control"
+                               min="1" step="1"
+                               oninput="validarInput(event)"
+                               required>
+                        <div style="display: none; margin-top: 5px;">
+                            Ingresa un número entero positivo mayor que cero.
+                        </div>
+                    </td>
+
+                    <td>
+                        <input type="number" value="{{ producto.precio }}"
+                               data-product-id="{{ producto.id }}"
+                               class="precio-input validar-numero-positivo form-control"
+                               min="0" step="0.01"
+                               oninput="validarInput(event)"
+                               required>
+                        <div style="display: none; margin-top: 5px;">
+                            Ingresa un número entero positivo o cero.
+                        </div>
+                    </td>
+
+                    <td>
+                        <select class="categoria-select form-control form-control-lg"
+                                data-product-id="{{ producto.id }}"
+                                data-categoria-actual="{{ producto.categoria }}">
+                            <option value="">Seleccionar categoría existente</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <button class="btn bi-trash-btn"
+                                onclick="eliminarProducto('{{ producto.id }}')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-start align-items-start">
+                <button class="btn boton-btn mr-3" onclick="agregarProducto()">
+                    Agregar Producto <i class="fas fa-plus-circle ml-2"></i>
+                </button>
+
+                <button class="btn boton-btn" onclick="actualizarInventario()">
+                    Actualizar Inventario <i class="fas fa-sync-alt ml-2"></i>
+                </button>
+
+            </div>
+
+            <div class="d-flex justify-content-start align-items-start">
+
+                <form action="{{ url_for('index') }}" method="GET">
+                    <button class="btn boton-btn" type="submit"><i class="fas fa-home ml2"></i></button>
+                </form>
+                <form action="/exportar_excel" method="get" class="mr-3">
+                    <button class="btn boton-btn" type="submit">
+                        Exportar Datos <i class="fas fa-download ml-2"></i>
+                    </button>
+
+                </form>
+            </div>
+
+            {% else %}
+            <p>No hay datos de inventario disponibles.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="header-content">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 data-aos="fade-up" data-aos-delay="400">IMPORTAR DATOS</h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">Agrega productos desde un archivo Excel.</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <ul class="list-group mb-4">
+                <form action="/importar_excel" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="file" name="archivo_excel" accept=".xlsx" class="form-control">
+                    </div>
+                    <div class="mb-3">
+
+                        <button class="btn boton-btn" type="submit">
+                            Importar Datos <i class="fas fa-upload ml-2"></i>
+                        </button>
+
+                        <a class="btn boton-btn" href="{{ url_for('descargar_plantilla_excel') }}" download>
+                            Plantilla para Importar Datos <i class="fas fa-upload ml-2"></i>
+                        </a>
+
+
+                    </div>
+                </form>
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+<div class="hora-contenedor">
+    <p id="tiempo-actual">
+        <span id="time" class="time-text"></span>
+        <span id="ampm" class="ampm-text"></span>
+    </p>
+</div>
+<footer>
+    <div class="footer-content">
+        <div class="left-content">
+            <p><strong>Universidad Estatal de Milagro</strong> Todos los derechos reservados - UNEMI</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const form = document.querySelector('form[action="/importar_excel"]');
+
+    // Agrega un evento 'submit' al formulario
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Verifica si el campo de carga de archivos está vacío
+        const fileInput = document.querySelector('input[name="archivo_excel"]');
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            // Muestra un Sweet Alert de advertencia si no se ha seleccionado ningún archivo
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia',
+                text: 'No has agregado ningún archivo.',
+            });
+            return; // Detiene el envío del formulario si no se seleccionó ningún archivo
+        }
+
+        // Crea un objeto FormData para enviar el formulario con datos de archivo
+        const formData = new FormData(form);
+
+        try {
+            // Realiza la solicitud AJAX usando fetch
+            const response = await fetch('/importar_excel', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Verifica si la respuesta es correcta
+            if (response.ok) {
+                const data = await response.json();
+                // Verifica si la importación fue exitosa
+                if (data.success) {
+                    // Muestra un Sweet Alert de éxito
+                    Swal.fire({
+                        title: 'Éxito',
+                        text: 'Datos importados exitosamente.',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        // Espera 1 segundo (1000 milisegundos) antes de recargar la página
+                        setTimeout(() => {
+                            window.location.reload(); // Recargar la página
+                        }, 1000);
+                    });
+                } else {
+                    // Muestra un Sweet Alert de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un error al importar los datos.',
+                    });
+                }
+            } else {
+                throw new Error('La solicitud falló.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Muestra un Sweet Alert de error genérico si la solicitud falla
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al procesar la solicitud.',
+            });
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mensaje Swal Alert con animación de círculo girando al cargar la página
+        Swal.fire({
+            title: 'Cargando...',
+            html: 'Por favor, espere...<br><br><div class="lds-dual-ring"></div>',
+            icon: 'info',
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            },
+        });
+        // Simula un tiempo de carga de 1 segundo después de que la página se cargue
+        setTimeout(() => {
+            Swal.close();
+        }, 1000);
+    });
+</script>
+<script>
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const currentTime = new Date();
+        const hora = currentTime.getHours().toString().padStart(2, '0');
+        const minuto = currentTime.getMinutes().toString().padStart(2, '0');
+        const segundo = currentTime.getSeconds().toString().padStart(2, '0');
+
+        timeElement.innerHTML = `<strong>${hora}</strong>:<strong>${minuto}</strong>:<strong>${segundo}</strong>`;
+    }
+
+    // Actualiza la hora cada segundo
+    setInterval(updateTime, 500);
+    // Llama a updateTime para mostrar la hora inicial
+    updateTime();
+
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const ampmElement = document.getElementById('ampm'); // Elemento para la referencia AM/PM
+        const currentTime = new Date();
+        let hours = currentTime.getHours();
+        let minutes = currentTime.getMinutes();
+        let seconds = currentTime.getSeconds();
+        let ampm = 'AM'; // Por defecto, asumimos que es AM
+        // Verifica si es PM y ajusta la referencia
+        if (hours >= 12) {
+            ampm = 'PM';
+            if (hours > 12) {
+                hours -= 12;
+            }
+        }
+        // Asegura que las horas, minutos y segundos tengan dos dígitos
+        hours = hours.toString().padStart(2, '0');
+        minutes = minutes.toString().padStart(2, '0');
+        seconds = seconds.toString().padStart(2, '0');
+        // Actualiza el contenido de los elementos
+        timeElement.innerHTML = `${hours}:${minutes}:${seconds}`;
+        ampmElement.innerHTML = ampm;
+    }
+
+    // Actualiza la hora cada segundo
+    setInterval(updateTime, 1000);
+    // Llama a updateTime para mostrar la hora inicial
+    updateTime();
+</script>
+<script>
+    function buscarProductos() {
+        let busqueda = document.getElementById('busqueda').value.toLowerCase().trim();
+        let filas = document.querySelectorAll('#tbody-inventario tr');
+
+        filas.forEach(function (fila) {
+            let nombreProducto = fila.textContent.toLowerCase();
+            if (nombreProducto.includes(busqueda)) {
+                fila.style.display = '';
+            } else {
+                fila.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('formBusqueda').addEventListener('submit', function (event) {
+        event.preventDefault();
+    });
+
+    document.getElementById('busqueda').addEventListener('input', buscarProductos);
+
+</script>
+
+<script>
+    function validarInput(event) {
+        const input = event.target;
+        const value = input.value;
+
+        // Validar para la clase "validar-entero-positivo"
+        if (input.classList.contains('validar-entero-positivo')) {
+            if (!Number.isInteger(parseFloat(value)) || parseInt(value) < 1) {
+                input.value = '';
+                mostrarMensajeError(input);
+            } else {
+                ocultarMensajeError(input);
+            }
+        }
+
+        // Validar para la clase "validar-numero-positivo"
+        if (input.classList.contains('validar-numero-positivo')) {
+            if (isNaN(parseFloat(value)) || parseFloat(value) < 0) {
+                input.value = '';
+                mostrarMensajeError(input);
+            } else {
+                ocultarMensajeError(input);
+            }
+        }
+    }
+
+    function mostrarMensajeError(input) {
+        const errorMessage = input.nextElementSibling;
+        errorMessage.style.display = 'inline';
+    }
+
+    function ocultarMensajeError(input) {
+        const errorMessage = input.nextElementSibling;
+        errorMessage.style.display = 'none';
+    }
+</script>
+
+<script>
+    function obtenerNuevaCategoria(selectElement) {
+        if (selectElement.value === 'nueva_categoria') {
+            const nuevaCategoriaInput = document.getElementById('nuevaCategoriaInput');
+            return nuevaCategoriaInput.value;
+        } else {
+            return selectElement.value;
+        }
+    }
+
+    function actualizarCategorias() {
+        const selectCategorias = document.querySelectorAll('.categoria-select');
+
+        selectCategorias.forEach(selectCategoria => {
+            console.log(selectCategoria);
+            const productId = selectCategoria.getAttribute('data-product-id');
+            const nuevaCategoria = obtenerNuevaCategoria(selectCategoria);
+
+            if (nuevaCategoria !== null) {
+                fetch('/actualizar_categorias', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productId: productId,
+                        nuevaCategoria: nuevaCategoria,
+                    }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Error en la solicitud al servidor');
+                        }
+                    })
+                    .then(data => {
+                        console.log('Categoría actualizada:', data.message);
+                        console.log(data)
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar la categoría:', error);
+                    });
+            }
+        });
+    }
+
+    function agregarProducto() {
+        // Redirigir a la página de registro de producto
+        window.location.href = "{{ url_for('registro_producto') }}";
+    }
+
+    function actualizarImagenes(button) {
+        var parentTD = button.parentNode;
+        var formData = new FormData();
+        var nuevasImagenesInput = parentTD.querySelector('.nuevas-imagenes');
+        var productoIdInput = parentTD.querySelector('.producto_id');
+
+        if (nuevasImagenesInput.files.length > 0) {
+            for (var i = 0; i < nuevasImagenesInput.files.length; i++) {
+                formData.append('nuevas_imagenes', nuevasImagenesInput.files[i]);
+            }
+
+            var productoId = productoIdInput.value;
+
+            formData.append('id_producto', productoId);
+
+            // Enviar las imágenes al servidor mediante fetch o AJAX
+            fetch('/actualizar_imagen_productos', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Mostrar mensaje de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'Imágenes actualizadas correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+                        // Recargar la página después de 1.5 segundos
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        throw new Error('Error al actualizar las imágenes');
+                    }
+                })
+                .catch(error => {
+                    // Mostrar mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ocurrió un error al actualizar las imágenes.',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    console.error('Error:', error);
+                });
+        } else {
+            // Si no se han seleccionado nuevas imágenes
+            Swal.fire({
+                icon: 'info',
+                title: 'Sin cambios',
+                text: 'No se seleccionaron nuevas imágenes.',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+    }
+
+    function actualizarCantidades() {
+        var cantidadInputs = document.getElementsByClassName('cantidad-input');
+        var cantidades = [];
+
+        // Recopilar cantidades actualizadas e IDs de productos
+        for (var i = 0; i < cantidadInputs.length; i++) {
+            var productoId = cantidadInputs[i].getAttribute('data-product-id');
+            var cantidad = cantidadInputs[i].value;
+            cantidades.push({id: productoId, cantidad: cantidad});
+        }
+
+        // Asegurarse de que haya cantidades para actualizar
+        if (cantidades.length === 0) {
+            // Mostrar un mensaje con SweetAlert
+            Swal.fire({
+                icon: 'info',
+                title: 'Sin cambios',
+                text: 'No hay cantidades para actualizar.',
+                showConfirmButton: false, // Esto quita el botón "OK"
+                timer: 1500, //Tiempo de espera de la alerta
+            });
+            return;
+        }
+
+        // Enviar datos al servidor (puedes usar AJAX o la API fetch)
+        fetch('/actualizar_cantidades', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({cantidades: cantidades}),
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error en la solicitud al servidor');
+                }
+            })
+            .then(data => {
+                // Mostrar un mensaje con SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Datos actualizados correctamente.',
+                    showConfirmButton: false, // Esto quita el botón "OK"
+                    timer: 1500, //Tiempo de espera de la alerta
+                });
+            })
+            .catch(error => {
+                // Mostrar un mensaje con SweetAlert en caso de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al actualizar las cantidades.',
+                    showConfirmButton: false, // Esto quita el botón "OK"
+                    timer: 1500, //Tiempo de espera de la alerta
+                });
+                console.error('Error:', error);
+            });
+    }
+
+    function actualizarPrecios() {
+        var precioInputs = document.getElementsByClassName('precio-input');
+        var precios = [];
+
+        // Recopilar precios actualizados e IDs de productos
+        for (var i = 0; i < precioInputs.length; i++) {
+            var productoId = precioInputs[i].getAttribute('data-product-id');
+            var precio = precioInputs[i].value;
+            precios.push({id: productoId, precio: precio});
+        }
+
+        // Asegurarse de que haya precios para actualizar
+        if (precios.length === 0) {
+            // Mostrar un mensaje con SweetAlert
+            Swal.fire({
+                icon: 'info',
+                title: 'Sin cambios',
+                text: 'No hay precios para actualizar.',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            return;
+        }
+
+        // Enviar datos al servidor
+        fetch('/actualizar_precios', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({precios: precios}),
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error en la solicitud al servidor');
+                }
+            })
+            .then(data => {
+                // Mostrar un mensaje con SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Datos actualizados correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+
+                // Esperar 1.5 segundos y luego recargar la página
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+            })
+            .catch(error => {
+                // Mostrar un mensaje con SweetAlert en caso de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al actualizar los precios.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                console.error('Error:', error);
+            });
+    }
+
+    function actualizarNombres() {
+        var nombreInputs = document.getElementsByClassName('nombre-producto');
+        var nombres = [];
+
+        // Recopilar nombres actualizados e IDs de productos
+        for (var i = 0; i < nombreInputs.length; i++) {
+            var productoId = nombreInputs[i].getAttribute('data-product-id');
+            var nuevoNombre = nombreInputs[i].value;
+            nombres.push({id: productoId, nombre: nuevoNombre});
+        }
+
+        // Asegurarse de que haya nombres para actualizar
+        if (nombres.length === 0) {
+            return Promise.reject('No hay nombres para actualizar.');
+        }
+
+        // Enviar datos al servidor y devolver la promesa resultante
+        return fetch('/actualizar_nombres', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({nombres: nombres}),
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error en la solicitud al servidor');
+                }
+            });
+    }
+
+
+    function eliminarProducto(productoId) {
+        // Mostrar confirmación con SweetAlert antes de eliminar
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción eliminará el producto. ¿Deseas continuar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Enviar solicitud al servidor para eliminar el producto
+                fetch('/eliminar_producto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({productoId: productoId}),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Error en la solicitud al servidor');
+                        }
+                    })
+                    .then(data => {
+                        // Mostrar mensaje de éxito con SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+
+                    })
+                    .catch(error => {
+                        // Mostrar mensaje de error con SweetAlert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error al eliminar el producto.',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        console.error('Error:', error);
+                    });
+            }
+        });
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
+    }
+
+
+    function actualizarInventario() {
+        Promise.all([
+            actualizarCantidades(),
+            actualizarPrecios(),
+            actualizarCategorias(),
+            actualizarNombres()
+            // Otras funciones de actualización aquí
+        ])
+            .then(() => {
+                // Mostrar un mensaje de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Datos actualizados correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+
+                // Esperar 1.5 segundos y luego recargar la página
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+            })
+            .catch(error => {
+                // Mostrar mensaje de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al actualizar datos del inventario.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                console.error('Error al actualizar inventario:', error);
+            });
+    }
+
+
+    // Obtener todos los select de categorías
+    const selectCategorias = document.querySelectorAll('.categoria-select');
+
+    // Iterar sobre cada select de categorías
+    selectCategorias.forEach(selectCategoria => {
+        const productId = selectCategoria.getAttribute('data-product-id');
+        // Obtener las categorías del servidor y llenar el select
+        fetch('/obtener_categorias')
+            .then(response => response.json())
+            .then(data => {
+                // Limpiar el select actual
+                selectCategoria.innerHTML = "";
+
+
+                // Llenar el select con las categorías obtenidas del servidor
+                data.categorias.forEach(categoria => {
+                    const option = document.createElement('option');
+                    option.value = categoria;
+                    option.textContent = categoria;
+                    selectCategoria.appendChild(option);
+                });
+
+                // Establecer la categoría actual como opción seleccionada
+                const categoriaActual = selectCategoria.getAttribute('data-categoria-actual');
+                selectCategoria.value = categoriaActual;
+            })
+            .catch(error => {
+                console.error('Error al obtener categorías:', error);
+            });
+    });
+
+</script>
+
+<script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+
+<!-- Template Main JS File -->
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>

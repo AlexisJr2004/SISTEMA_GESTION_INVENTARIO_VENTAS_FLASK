@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Gestion de Inventarios y Ventas - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-zZ/2yCE+5QqkP5rDLaRObSb5B32/Zso7bX5v6XfuP8vA5PKaUz1TnF1DBL6UpGutCMAaEzh7it6QgPvcqF5jUQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_index.css') }}">
+
+    <!-- =======================================================
+    * Template Name: FlexStart
+    * Updated: Sep 18 2023 with Bootstrap v5.3.2
+    * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="{{ url_for('index') }}" class="logo d-flex align-items-center">
+            <img src="{{ url_for('static', filename='assets/img/logo.png') }}" alt="">
+            <span>SGIV</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+                <li><a class="nav-link scrollto" href="#about">Acerca de</a></li>
+                <li><a class="nav-link scrollto" href="#services">Módulos</a></li>
+                <li><a class="nav-link scrollto" href="#team">Grupo</a></li>
+                <li><a class="nav-link scrollto" href="#contact">Contactos</a></li>
+
+                <li class="dropdown"><a href="#"><span>Gestion de Ventas</span></a>
+                    <ul>
+                        <li class="dropdown"><a href="#"><span>Gestionar productos</span></a>
+                            <ul>
+                                <li><a href="/registro_producto">Agregar productos</a></li>
+                                <li><a href="/gestion_inventario">Actualizar Inventario</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown"><a href="#"><span>Visualizacion de datos</span></a>
+                            <ul>
+                                <li><a href="/productos_vendidos.html">Productos vendidos</a></li>
+                                <li><a href="/grafico_pastel">Graficos</a></li>
+                                <li><a href="/usuarios_registrados">Registro de clientes</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"><a href="#"><span>Gestion de Compras</span></a>
+                    <ul>
+                        <li><a href="/productos">Productos disponibles</a></li>
+                        <li><a href="/carrito_compras">Carro de compras<i
+                                class="fas fa-shopping-cart ml-2 fa-lg"></i></a></li>
+                        <li><a href="/productos_comprados">Productos comprados</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if imagen_base64 %}
+                        <!-- Imagen de perfil con tamaño personalizado -->
+                        <img src="data:image/jpeg;base64,{{ imagen_base64 }}" alt="Imagen de perfil"
+                             class="icon-large imagen_nav">
+                        {% else %}
+                        <!-- Si no hay imagen, puedes usar un icono predeterminado o una imagen por defecto -->
+                        <i class="fas fa-user-circle icon-large"></i>
+                        {% endif %}
+                        <br>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/perfil_de_usuario">{{ username }}</a></li>
+                        <!-- El enlace de cierre de sesión con una clase personalizada -->
+                        <li><a class="dropdown-item logout-link" href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+    </div>
+</header>
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
+                <h1 data-aos="fade-up">Una solucion para tu negocio. </h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">
+                    {% if 'user_id' in session %}
+                    <!-- Contenido que se muestra cuando el usuario está autenticado -->
+                    <p>Bienvenido, {{ session['user_id'] }}!</p>
+                    {% else %}
+                    <!-- Otra cosa que quieras mostrar cuando no hay sesión iniciada -->
+                    <p>No has iniciado sesión</p>
+                    {% endif %}
+                    Lleva a cabo multiples funciones para el exito de tu
+                    emprendimiento.
+                </h2>
+            </div>
+            <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                <img class="imagen-con-animacion" src="{{ url_for('static', filename='assets/img/hero-img.png') }}"
+                     alt="">
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+<main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+
+        <div class="container" data-aos="fade-up">
+            <div class="row gx-0">
+
+                <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="content">
+                        <h3>Sistema de Gestión de Inventarios y Ventas</h3>
+                        <h2>Informacion</h2>
+                        <p>
+                            Usa nuestra aplicación web que facilita la gestión de inventarios y ventas para pequeños
+                            negocios.
+                        </p>
+                        <div class="text-center text-lg-start">
+                            <a href="#services"
+                               class="btn btn-primary d-inline-flex align-items-center justify-content-center align-self-center">
+                                Empecemos
+                                <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                    <img class="imagen-con-animacion" src="{{ url_for('static', filename='assets/img/about.jpg') }}"
+                         alt="">
+                </div>
+
+
+            </div>
+        </div>
+
+    </section>
+    <!-- End About Section -->
+
+    <!-- ======= Counts Section ======= -->
+    <header class="section-header">
+        <p>Resumen de Uso</p>
+    </header>
+
+    <section id="counts" class="counts">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-emoji-smile"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
+                                  class="purecounter"></span>
+
+                            <p>Clientes Felices</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="2" data-purecounter-duration="1"
+                                  class="purecounter"></span>
+                            <p>Proyectos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-headset" style="color: #15be56;"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="576" data-purecounter-duration="1"
+                                  class="purecounter"></span>
+                            <p>Horas de soporte</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-people" style="color: #bb0852;"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="4" data-purecounter-duration="1"
+                                  class="purecounter"></span>
+                            <p>Trabajadores</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Módulos</h2>
+                <p>Módulos de Gestionamiento de Inventarios y Ventas</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-box blue">
+                        <i class="ri-pencil-fill icon"></i>
+                        <h3>Registro de Productos</h3>
+                        <p> Ingresa detalles sobre nuevos productos, incluyendo nombre, categoría, imagen(opcional),
+                            precio y cantidad en inventario..</p>
+                        <a href="{{ url_for('registro_producto') }}"><span>Comencemos</span> <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-box orange">
+                        <i class="ri-list-settings-fill icon"></i>
+                        <h3>Gestión de Inventario</h3>
+                        <p>Gestiona tu inventario, agregando nuevos productos, actualizando cantidades y eliminando
+                            productos.</p>
+                        <a href="{{ url_for('gestion_inventario') }}"><span>Comencemos</span> <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-box green">
+                        <i class="fas fa-money-bill-wave icon"></i>
+                        <h3>Registro de Productos Vendidos</h3>
+                        <p>Realiza seguimientos de los productos que se venden.</p>
+                        <a href="/productos_vendidos.html" class="read-more">
+                            <span>Comencemos</span> <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-box red">
+                        <i class="ri-store-3-fill icon"></i>
+                        <h3>Productos disponibles</h3>
+                        <p>Explora en una variedad de productos.</p>
+                        <a href="{{ url_for('mostrar_productos') }}"><span>Comencemos</span> <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-box purple">
+                        <i class="ri-shopping-cart-2-fill icon"></i>
+                        <h3>Carrito de Compras</h3>
+                        <p>Visualiza los productos que has guardado para comprarlos.</p>
+                        <a href="/carrito_compras"><span>Comencemos</span> <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-box blue">
+                        <i class="fas fa-receipt icon"></i>
+                        <h3>Productos comprados</h3>
+                        <p>Visualiza el historial de los productos que has adquirido.</p>
+                        <a href="/productos_comprados"><span>Comencemos</span> <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+                    <div class="service-box pink">
+                        <i class="ri-pie-chart-2-fill icon"></i>
+                        <h3>Gráficos Estadísticos</h3>
+                        <p>Revisa la distribución de categorías de productos y el
+                            rendimiento de las ventas a lo largo del tiempo, mediante Gráficos Estadísticos. </p>
+                        <a href="/grafico_pastel" class="read-more"><span>Comencemos</span> <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+                    <div class="service-box red">
+                        <i class="fas fa-user icon"></i> <!-- Ícono de usuario similar al estilo ri-pie-chart-2-fill -->
+                        <h3>Perfil de Usuario</h3>
+                        <p>Agrega una foto de perfil y actualiza tu información personal.</p>
+                        <a href="/perfil_de_usuario" class="read-more"><span>Comencemos</span> <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End Services Section -->
+
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Preguntas</h2>
+                <p>Preguntas frecuentes</p>
+            </header>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- F.A.Q List 1-->
+                    <div class="accordion accordion-flush" id="faqlist1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-content-1">
+                                    ¿Finalidad del Desarrollo del Software (SGIV)?
+                                </button>
+                            </h2>
+                            <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                <div class="accordion-body">
+                                    <p>La finalidad de un proyecto de gestión de gastos y ventas generalmente es
+                                        facilitar el control y la administración eficiente de los recursos económicos de
+                                        una empresa u organización.</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-content-2">
+                                    ¿Qué tecnologías se utilizó?
+                                </button>
+                            </h2>
+                            <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                <div class="accordion-body">
+                                    Python (Flask)<br>HTML5<br>CSS3<br>JavaScript (ES6+)<br>SQLite (Base de datos)<br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-content-3">
+                                    Técnologías usadas en el Backend y Frontend
+                                </button>
+                            </h2>
+                            <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                <div class="accordion-body">
+                                    La aplicación utilizará Python en el backend con Flask, HTML y JavaScript en el
+                                    frontend.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+
+                    <!-- F.A.Q List 2-->
+                    <div class="accordion accordion-flush" id="faqlist2">
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq2-content-1">
+                                    Características Principales del Software
+                                </button>
+                            </h2>
+                            <div id="faq2-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
+                                <div class="accordion-body">
+                                    Registro de Productos<br>Gestión de Inventario<br>Registro de Ventas<br>Estadísticas
+                                    de Ventas<br>Visualización de Inventarios y Ventas<br>Gráficos Interactivos<br>Manejo
+                                    de Archivos<br>Registro de Clientes<br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq2-content-2">
+                                    Usabilidad del Software
+                                </button>
+                            </h2>
+                            <div id="faq2-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
+                                <div class="accordion-body">
+                                    Disponibilidad 24/7
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faq2-content-3">
+                                    Tiempo de desarrollo del Software
+                                </button>
+                            </h2>
+                            <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
+                                <div class="accordion-body">
+                                    El Software tendrá un tiempo de desarrollo de 20 días.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End F.A.Q Section -->
+
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Equipo</h2>
+                <p>Nuestro Equipo de Desarrollo</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member">
+                        <div class="member-img">
+                            <img src="{{ url_for('static', filename='assets/img/team/team-1.jpg') }}" class="img-fluid"
+                                 alt="">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>JAVIER OMAR HARO SOLEDISPA</h4>
+                            <span>Programador</span>
+                            <p>Integración con Bases de Datos<br>Interfaz de Usuario (UI).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                    <div class="member">
+                        <div class="member-img">
+                            <img src="{{ url_for('static', filename='assets/img/team/team-2.png') }}" class="img-fluid"
+                                 alt="">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>STEVEN ALEXANDER NIETO DURAN</h4>
+                            <span>Programador</span>
+                            <p>Integración con Bases de Datos<br>Interfaz de Usuario (UI).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+                    <div class="member">
+                        <div class="member-img">
+                            <img src="{{ url_for('static', filename='assets/img/team/team-3.jpg') }}" class="img-fluid"
+                                 alt="">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>ADAN ALI ESCANDON ROCA</h4>
+                            <span>Programador</span>
+                            <p>Integración con Bases de Datos<br>Interfaz de Usuario (UI).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+                    <div class="member">
+                        <div class="member-img">
+                            <img src="{{ url_for('static', filename='assets/img/team/team-4.jpg') }}" class="img-fluid"
+                                 alt="">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h4>CINTHIA MICHELLE CASTRO NARANJO</h4>
+                            <span>Programador</span>
+                            <p>Integración con Bases de Datos<br>Interfaz de Usuario (UI).</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End Team Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+            <header class="section-header">
+                <h2>Contacto</h2>
+                <p>Contactanos</p>
+            </header>
+
+            <div class="row gy-4">
+                <div class="col-lg-12">
+                    <div class="row gy-4">
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-geo-alt"></i>
+                                <h3>Dirección</h3>
+                                <p>Milagro,<br>Universidad Estatal de Milagro</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-telephone"></i>
+                                <h3>Llámanos</h3>
+                                <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-envelope"></i>
+                                <h3>Envíanos un correo electrónico</h3>
+                                <p>
+                                    <a href="mailto:jharos@unemi.edu.ec">jharos@unemi.edu.ec</a><br>
+                                    <a href="mailto:snietod@unemi.edu.ec">snietod@unemi.edu.ec</a><br>
+                                    <a href="mailto:aescandonr@unemi.edu.ec">aescandonr@unemi.edu.ec</a><br>
+                                    <a href="mailto:ccastron@unemi.edu.ec">ccastron@unemi.edu.ec</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-clock"></i>
+                                <h3>Horarios de apertura</h3>
+                                <p>Lunes - Viernes<br>9:00AM - 05:00PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<div class="hora-contenedor">
+    <p id="tiempo-actual">
+        <span id="time" class="time-text"></span>
+        <span id="ampm" class="ampm-text"></span>
+    </p>
+</div>
+<footer>
+    <div class="footer-content">
+        <div class="left-content">
+            <p><strong>Universidad Estatal de Milagro</strong> Todos los derechos reservados - UNEMI</p>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+
+<!-- Vendor JS Files -->
+<script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+
+<!-- Template Main JS File -->
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mensaje Swal Alert con animación de círculo girando al cargar la página
+        Swal.fire({
+            title: 'Cargando...',
+            html: 'Por favor, espere...<br><br><div class="lds-dual-ring"></div>',
+            icon: 'info',
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            },
+        });
+        // Simula un tiempo de carga de 1 segundo después de que la página se cargue
+        setTimeout(() => {
+            Swal.close();
+        }, 1000);
+    });
+</script>
+
+<script>
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const currentTime = new Date();
+        const hora = currentTime.getHours().toString().padStart(2, '0');
+        const minuto = currentTime.getMinutes().toString().padStart(2, '0');
+        const segundo = currentTime.getSeconds().toString().padStart(2, '0');
+
+        timeElement.innerHTML = `<strong>${hora}</strong>:<strong>${minuto}</strong>:<strong>${segundo}</strong>`;
+    }
+
+    // Actualiza la hora cada segundo
+    setInterval(updateTime, 500);
+    // Llama a updateTime para mostrar la hora inicial
+    updateTime();
+
+    function updateTime() {
+        const timeElement = document.getElementById('time');
+        const ampmElement = document.getElementById('ampm'); // Elemento para la referencia AM/PM
+        const currentTime = new Date();
+        let hours = currentTime.getHours();
+        let minutes = currentTime.getMinutes();
+        let seconds = currentTime.getSeconds();
+        let ampm = 'AM'; // Por defecto, asumimos que es AM
+        // Verifica si es PM y ajusta la referencia
+        if (hours >= 12) {
+            ampm = 'PM';
+            if (hours > 12) {
+                hours -= 12;
+            }
+        }
+        // Asegura que las horas, minutos y segundos tengan dos dígitos
+        hours = hours.toString().padStart(2, '0');
+        minutes = minutes.toString().padStart(2, '0');
+        seconds = seconds.toString().padStart(2, '0');
+        // Actualiza el contenido de los elementos
+        timeElement.innerHTML = `${hours}:${minutes}:${seconds}`;
+        ampmElement.innerHTML = ampm;
+    }
+
+    // Actualiza la hora cada segundo
+    setInterval(updateTime, 1000);
+    // Llama a updateTime para mostrar la hora inicial
+    updateTime();
+</script>
+</body>
+
+</html>

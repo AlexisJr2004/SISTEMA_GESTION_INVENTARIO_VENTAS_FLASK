@@ -1,0 +1,389 @@
+:root {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    color: #444444;
+}
+
+a {
+    color: #4154f1;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #717ff5;
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Nunito", sans-serif;
+    font-size: 20px; /* Tamaño de fuente */
+    color: #052238; /* Color del texto */
+    font-weight: bold;
+}
+
+/*--------------------------------------------------------------
+# Sections
+--------------------------------------------------------------*/
+section {
+    padding: 60px 0;
+    overflow: hidden;
+}
+
+.section-header {
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.section-header h2 {
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin: 0;
+    color: #4154f1;
+    text-transform: uppercase;
+}
+
+.section-header p {
+    margin: 10px 0 0 0;
+    padding: 0;
+    font-size: 38px;
+    line-height: 42px;
+    font-weight: 700;
+    color: #012970;
+}
+
+@media (max-width: 768px) {
+    .section-header p {
+        font-size: 28px;
+        line-height: 32px;
+    }
+}
+
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+.header {
+    transition: all 0.5s;
+    z-index: 997;
+    padding: 20px 0;
+}
+
+.header.header-scrolled {
+    background: #fff;
+    padding: 15px 0;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+}
+
+.header .logo {
+    line-height: 0;
+}
+
+.header .logo img {
+    max-height: 40px;
+    margin-right: 6px;
+}
+
+.header .logo span {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #012970;
+    font-family: "Nunito", sans-serif;
+    margin-top: 3px;
+}
+
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+.navbar {
+    padding: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.navbar li {
+    position: relative;
+}
+
+.navbar a,
+.navbar a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 10px 30px;
+    font-family: "Nunito", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #013289;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.navbar a i,
+.navbar a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+}
+
+.navbar a:hover,
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover > a {
+    color: #4154f1;
+}
+
+.navbar .getstarted,
+.navbar .getstarted:focus {
+    background: #4154f1;
+    padding: 8px 20px;
+    margin-left: 30px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.navbar .getstarted:hover,
+.navbar .getstarted:focus:hover {
+    color: #fff;
+    background: #5969f3;
+}
+
+.navbar .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.navbar .dropdown ul li {
+    min-width: 200px;
+}
+
+.navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 15px;
+    text-transform: none;
+    font-weight: 600;
+}
+
+.navbar .dropdown ul a i {
+    font-size: 12px;
+}
+
+.navbar .dropdown ul a:hover,
+.navbar .dropdown ul .active:hover,
+.navbar .dropdown ul li:hover > a {
+    color: #4154f1;
+}
+
+.navbar .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+}
+
+.navbar .megamenu {
+    position: static;
+}
+
+.navbar .megamenu ul {
+    margin-top: 5px;
+    right: 0;
+    padding: 10px;
+    display: flex;
+}
+
+.navbar .megamenu ul li {
+    flex: 1;
+}
+
+.navbar .megamenu ul li a,
+.navbar .megamenu ul li:hover > a {
+    color: #013289;
+}
+
+.navbar .megamenu ul li a:hover,
+.navbar .megamenu ul li .active,
+.navbar .megamenu ul li .active:hover {
+    color: #4154f1;
+}
+
+.navbar .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+}
+
+.navbar .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+}
+
+@media (max-width: 1366px) {
+    .navbar .dropdown .dropdown ul {
+        left: -90%;
+    }
+
+    .navbar .dropdown .dropdown:hover > ul {
+        left: -100%;
+    }
+}
+
+
+/* IMPORTANTE: Estilos para el contenido debajo de la Navbar */
+
+.header-content {
+    background-color: #ffffff; /* Cambia el color de fondo según tu preferencia */
+    padding: 20px; /* Ajusta el espaciado superior e inferior */
+    text-align: center; /* Centra el contenido */
+    margin-bottom: 5px;
+    font-family: "Nunito", sans-serif;
+
+}
+
+.header-content h1 {
+    font-size: 3.5rem; /* Tamaño del título */
+    margin-bottom: 10px; /* Espaciado inferior del título */
+    font-weight: bold; /* Grosor de la fuente */
+    color: #012970; /* Color del texto */
+
+}
+
+.form-control {
+    border-radius: 50px;
+    background-color: aliceblue;
+}
+
+.navbar a i, .navbar a:focus i {
+    font-size: 40px;
+    line-height: 0;
+    margin-left: 5px;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+}
+
+
+/* Estilos para el footer */
+footer {
+    color: black;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000; /* Un valor alto para asegurarse de que esté por encima de otros elementos */
+    height: 45px; /* Ajuste la altura según sea necesario */
+}
+
+.footer-content {
+    background-color: white;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.left-content {
+    text-align: left;
+}
+
+.footer-content p {
+    text-align: center;
+    margin: 0; /* Ajuste el margen según sea necesario */
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+}
+
+/* Estilos para el contenedor de la hora */
+.hora-contenedor {
+    text-align: center; /* Cambiado a center para alinear con el centro del footer */
+    height: 30px;
+    position: fixed;
+    bottom: 3px;
+    z-index: 99999;
+    right: 10px;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+
+}
+
+.time-text,
+.ampm-text {
+    font-weight: bold;
+}
+
+.boton-btn {
+    /* Estilos para los botones */
+    background-color: #012970;
+    color: #fff;
+    padding: 10px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px; /* Espacio entre botones */
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+    font-family: "Nunito", sans-serif;
+
+}
+
+/* Estilos para el botón "Registrar" al pasar el cursor */
+.boton-btn:hover {
+    background-color: #003ba1;
+    transform: scale(1.05);
+    color: white;
+}
+
+/* Estilos para la imagen en la barra de navegación */
+.imagen_nav {
+    width: 50px; /* Ancho deseado */
+    height: 50px; /* Altura deseada */
+    border-radius: 50%; /* Para hacer la imagen redonda si es necesario */
+    border: 3px solid #012970;
+
+}
+
+.imagen_nav:hover {
+    border-color: #4154f1;
+}
+
+/* Estilos para el label */
+.form-label {
+    font-weight: bold;
+    color: #333;
+    font-family: "Nunito", sans-serif;
+    font-size: 20px;
+}
+
+/* Estilos para el input */
+.form-input {
+    padding: 8px;
+    border: 1px solid #ccc; /* Cambia el color del borde a tu preferencia */
+    border-radius: 4px;
+    font-family: "Nunito", sans-serif;
+}

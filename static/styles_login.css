@@ -1,0 +1,140 @@
+:root {
+    scroll-behavior: smooth;
+}
+
+.container {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.inventory-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+}
+
+/* Agrega la animación de giro */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilo del círculo giratorio */
+.lds-dual-ring {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #3498db;
+    border-radius: 50%;
+    border-top: 3px solid #ffffff;
+    animation: spin 1s linear infinite;
+}
+
+.input-group .btn {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+
+}
+
+/* Estilos para el footer */
+footer {
+    color: black;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000; /* Un valor alto para asegurarse de que esté por encima de otros elementos */
+    height: 45px; /* Ajuste la altura según sea necesario */
+}
+
+.footer-content {
+    background-color: white;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.left-content {
+    text-align: left;
+}
+
+.footer-content p {
+    text-align: center;
+    margin: 0; /* Ajuste el margen según sea necesario */
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+}
+
+/* Estilos para el contenedor de la hora */
+.hora-contenedor {
+    text-align: center; /* Cambiado a center para alinear con el centro del footer */
+    height: 30px;
+    position: fixed;
+    bottom: 3px;
+    z-index: 99999;
+    right: 10px;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+
+}
+
+.time-text,
+.ampm-text {
+    font-weight: bold;
+}
+
+.boton-btn {
+    /* Estilos para los botones */
+    background-color: #012970;
+    color: #fff;
+    padding: 10px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px; /* Espacio entre botones */
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+    font-family: "Nunito", sans-serif;
+
+}
+
+.boton-btn:hover {
+    background-color: #003ba1;
+    transform: scale(1.05);
+    color: white;
+}
+
+.custom-label {
+    color: #495057; /* Color del texto */
+    font-weight: bold; /* Negrita */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    font-size: 25px;
+    font-family: "Nunito", sans-serif;
+}
+
+h1 {
+    color: #012970; /* Color del texto */
+    font-weight: bold; /* Negrita */
+    margin-bottom: 0.5rem; /* Espacio inferior */
+    font-size: 40px;
+    font-family: "Nunito", sans-serif;
+}

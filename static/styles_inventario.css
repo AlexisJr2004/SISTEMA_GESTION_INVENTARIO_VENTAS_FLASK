@@ -1,0 +1,623 @@
+
+:root {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    color: #444444;
+}
+
+a {
+    color: #4154f1;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #717ff5;
+    text-decoration: none;
+}
+
+
+/*--------------------------------------------------------------
+# Sections
+--------------------------------------------------------------*/
+section {
+    overflow: hidden;
+}
+
+.section-header {
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.section-header h2 {
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin: 0;
+    color: #4154f1;
+    text-transform: uppercase;
+}
+
+.section-header p {
+    margin: 10px 0 0 0;
+    padding: 0;
+    font-size: 38px;
+    line-height: 42px;
+    font-weight: 700;
+    color: #012970;
+}
+
+@media (max-width: 768px) {
+    .section-header p {
+        font-size: 28px;
+        line-height: 32px;
+    }
+}
+
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+.header {
+    transition: all 0.5s;
+    z-index: 997;
+    padding: 20px 0;
+}
+
+.header.header-scrolled {
+    background: #fff;
+    padding: 15px 0;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+}
+
+.header .logo {
+    line-height: 0;
+}
+
+.header .logo img {
+    max-height: 40px;
+    margin-right: 6px;
+}
+
+.header .logo span {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #012970;
+    font-family: "Nunito", sans-serif;
+    margin-top: 3px;
+}
+
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+/**
+* Desktop Navigation
+*/
+.navbar {
+    padding: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.navbar li {
+    position: relative;
+}
+
+.navbar a,
+.navbar a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 10px 30px;
+    font-family: "Nunito", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #013289;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.navbar a i,
+.navbar a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+}
+
+.navbar a:hover,
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover > a {
+    color: #4154f1;
+}
+
+.navbar .getstarted,
+.navbar .getstarted:focus {
+    background: #4154f1;
+    padding: 8px 20px;
+    margin-left: 30px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.navbar .getstarted:hover,
+.navbar .getstarted:focus:hover {
+    color: #fff;
+    background: #5969f3;
+}
+
+.navbar .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.navbar .dropdown ul li {
+    min-width: 200px;
+}
+
+.navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 15px;
+    text-transform: none;
+    font-weight: 600;
+}
+
+.navbar .dropdown ul a i {
+    font-size: 12px;
+}
+
+.navbar .dropdown ul a:hover,
+.navbar .dropdown ul .active:hover,
+.navbar .dropdown ul li:hover > a {
+    color: #4154f1;
+}
+
+.navbar .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+}
+
+.navbar .megamenu {
+    position: static;
+}
+
+.navbar .megamenu ul {
+    margin-top: 5px;
+    right: 0;
+    padding: 10px;
+    display: flex;
+}
+
+.navbar .megamenu ul li {
+    flex: 1;
+}
+
+.navbar .megamenu ul li a,
+.navbar .megamenu ul li:hover > a {
+    color: #013289;
+}
+
+.navbar .megamenu ul li a:hover,
+.navbar .megamenu ul li .active,
+.navbar .megamenu ul li .active:hover {
+    color: #4154f1;
+}
+
+.navbar .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+}
+
+.navbar .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+}
+
+@media (max-width: 1366px) {
+    .navbar .dropdown .dropdown ul {
+        left: -90%;
+    }
+
+    .navbar .dropdown .dropdown:hover > ul {
+        left: -100%;
+    }
+}
+
+/* Estilos para el contenido debajo de la Navbar */
+.header-content {
+    background-color: #ffffff; /* Cambia el color de fondo según tu preferencia */
+    padding: 40px; /* Ajusta el espaciado superior e inferior */
+    text-align: center; /* Centra el contenido */
+
+}
+
+
+.header-content h1 {
+    font-size: 3.5rem; /* Tamaño del título */
+    margin-bottom: 10px; /* Espaciado inferior del título */
+    font-weight: bold; /* Grosor de la fuente */
+    font-family: "Nunito", sans-serif;
+    color: #012970; /* Color del texto */
+
+}
+
+.header-content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: #50565a;
+    font-family: "Nunito", sans-serif;
+
+}
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+h1 {
+    font-size: 25px;
+    color: #000000;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: bolder;
+    font-family: "Open Sans", sans-serif;
+}
+
+h2 {
+    font-size: 38px;
+    color: #012970;
+    margin-top: 120px;
+    margin-bottom: 20px;
+    font-weight: bolder;
+    font-family: "Nunito", sans-serif;
+}
+
+h3 {
+    font-size: 20px;
+    color: #000000;
+    margin-bottom: 20px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.login-container {
+    margin-top: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    font-size: 15px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: "Nunito", sans-serif;
+
+}
+
+
+.bi-trash-btn {
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    height: 40px; /* Altura uniforme */
+    margin-right: 10px; /* Separación uniforme */
+}
+
+.bi-trash-btn:hover {
+    background-color: #ffffff;
+    color: #ff0000;
+    transform: scale(1.05);
+}
+
+
+label {
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #555;
+    transition: color 0.3s;
+}
+
+
+.inventory-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    margin: 0;
+}
+
+table {
+    width: 80%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilo del círculo giratorio */
+.lds-dual-ring {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #3498db;
+    border-radius: 50%;
+    border-top: 3px solid #ffffff;
+    animation: spin 1s linear infinite;
+}
+
+
+/* Estilos para el footer */
+footer {
+    color: black;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000; /* Un valor alto para asegurarse de que esté por encima de otros elementos */
+    height: 45px; /* Ajuste la altura según sea necesario */
+    font-family: "Nunito", sans-serif;
+}
+
+.footer-content {
+    background-color: white;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.left-content {
+    text-align: left;
+}
+
+.footer-content p {
+    text-align: center;
+    margin: 0; /* Ajuste el margen según sea necesario */
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+}
+
+/* Estilos para el contenedor de la hora */
+.hora-contenedor {
+    text-align: center; /* Cambiado a center para alinear con el centro del footer */
+    height: 30px;
+    position: fixed;
+    bottom: 3px;
+    z-index: 99999;
+    right: 10px;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+
+}
+
+.time-text,
+.ampm-text {
+    font-weight: bold;
+}
+
+.imagen-pequena {
+    max-width: 100px; /* Establece el ancho máximo deseado */
+    max-height: 100px; /* Establece la altura máxima deseada */
+    border-radius: 8px;
+}
+
+
+/* Estilos para la tabla */
+#tabla-inventario {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 50px; /* Margen izquierdo automático */
+    margin-right: 50px; /* Margen derecho automático */
+    border-radius: 8px; /* Bordes redondeados para la tabla */
+    overflow: hidden; /* Evita que los bordes redondeados se extiendan */
+    text-align: center;
+    font-family: "Nunito", sans-serif;
+
+
+}
+
+#tabla-inventario th {
+    background-color: #012970;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 8px; /* Espaciado interno de las celdas */
+    max-width: 500px; /* Establece el ancho máximo de la tabla */
+
+}
+
+#tabla-inventario td {
+    padding: 8px;
+    text-align: center;
+    color: #000000;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.boton-btn {
+    /* Estilos para los botones */
+    background-color: #012970;
+    color: #fff;
+    padding: 10px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px; /* Espacio entre botones */
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+    margin-bottom: 20px;
+    font-family: "Nunito", sans-serif;
+}
+
+/* Estilos para el botón "Registrar" al pasar el cursor */
+.boton-btn:hover {
+    background-color: #003ba1;
+    transform: scale(1.05);
+    color: white;
+}
+
+
+/* Estilos para los inputs */
+input[type="number"],
+input[type="file"],
+input[type="text"],
+input[type="file"] {
+    font-size: 16px;
+    width: 100%; /* Opcional: Ajusta el ancho de los inputs al 100% */
+    padding: 8px; /* Añade un espaciado interno para los inputs */
+    margin-bottom: 10px; /* Añade margen en la parte inferior para separar los inputs */
+    border-radius: 50px; /* Bordes redondeados para los inputs */
+    border: 1px solid #ccc; /* Establece un borde para los inputs */
+    box-sizing: border-box; /* Asegura que el padding y border se incluyan en el ancho total del input */
+    font-family: "Nunito", sans-serif;
+
+}
+
+/* Estilos para el select */
+select {
+    vertical-align: middle;
+    width: 80px;
+    padding: 5px;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+    font-family: "Nunito", sans-serif;
+}
+
+.logout-link:hover {
+    color: red;
+}
+
+.form-control-lg {
+    min-height: calc(1.5em + 1rem + calc(var(--bs-border-width) * 2));
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 50px;
+}
+
+
+.form-control-lg {
+    min-height: calc(1.5em + 1rem + calc(var(--bs-border-width) * 2));
+    padding: .5rem 1rem;
+    font-size: 15px;
+    border-radius: 50px;
+}
+
+
+.navbar a i, .navbar a:focus i {
+    font-size: 40px;
+    line-height: 0;
+    margin-left: 5px;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+}
+
+
+.foto_perfil {
+    width: 200px; /* Define el ancho deseado */
+    height: 200px; /* Define la altura deseada */
+    border-radius: 50%; /* Aplica bordes redondos para hacer un círculo */
+    object-fit: cover; /* Mantiene la relación de aspecto y cubre el contenedor */
+    border: 8px solid #012970;
+}
+
+.foto_perfil:hover {
+    border-color: #ff0000;
+}
+
+/* Estilos para la imagen en la barra de navegación */
+.imagen_nav {
+    width: 50px; /* Ancho deseado */
+    height: 50px; /* Altura deseada */
+    border-radius: 50%; /* Para hacer la imagen redonda si es necesario */
+    border: 3px solid #012970;
+
+}
+
+.imagen_nav:hover {
+    border-color: #4154f1;
+}
+
+.delete-btn {
+    /* Estilos para los botones */
+    background-color: #ff0000;
+    color: #fff;
+    padding: 10px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px; /* Espacio entre botones */
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+/* Estilos para el botón "Registrar" al pasar el cursor */
+.delete-btn:hover {
+    background-color: #951919;
+    transform: scale(1.05);
+    color: white;
+}
+
+.ocultar-en-pagina {
+    display: none;
+}
